@@ -11,15 +11,22 @@ def index():
 
 @app.route('/predict', methods=['POST', 'GET'])
 def predict():
-    if request.method== 'POST':
+    if request.method == 'POST':
+        # return jsonify(request.form)
         dados = [
             float(request.form['comp_sepala']),
             float(request.form['larg_sepala']),
             float(request.form['comp_petala']),
             float(request.form['larg_petala'])
         ]
-        y_pred= predictions.predict(dados)
-        return jsonify('resultado', y_pred)
+        print(dados)
+        y_pred = predictions.predict(dados)
+        print(y_pred)
+        return jsonify({
+                      "setosa":f'{y_pred[0]}',
+                      "versicolor":f'{y_pred[1]}',
+                      "virginia":f'{y_pred[2]}'
+                      })
 
     elif request.method == 'GET':
         return jsonify({"mansagem" : "utilize o formulário"})
